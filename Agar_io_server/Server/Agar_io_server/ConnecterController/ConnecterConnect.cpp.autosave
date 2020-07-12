@@ -1,0 +1,32 @@
+#include "ConnecterConnect.h"
+
+ConnecterConnect::ConnecterConnect(quint16 portNumber, QWidget *parent)
+    :QTextEdit{ parent },
+     m_currentID{ 1 },
+     m_server{ new QWebSocketServer("my_agar_io_server", QWebSocketServer::SslMode::NonSecureMode, this) }
+    {
+        if(!m_server->listen(QHostAddress::SpecialAddress::Any, portNumber))
+        {
+            QMessageBox::critical(this, "Server error", m_server->errorString());
+            return;
+        }
+        
+        QObject::connect(m_server, &QWebSocketServer::newConnection, 
+                         this, &ConnecterConnect::slotNewConnection, Qt::ConnectionType::UniqueConnection);
+    }
+
+void ConnecterConnect::slotNewConnection()
+{
+    User* newUser = new User(m_currentID, m_server->nextPendingConnection(), this);
+    QObject::connect(newUser, &User::signalUserWantPlay, 
+                     this, &ConnecterConnect::slotUserWantPlay, Qt::ConnectionType::UniqueConnection);
+}
+void ConnecterConnect::slotDisconnected()
+{
+    
+}
+
+void ConnecterConnect::slotUserWantPlay(User* user)
+{
+    
+}
