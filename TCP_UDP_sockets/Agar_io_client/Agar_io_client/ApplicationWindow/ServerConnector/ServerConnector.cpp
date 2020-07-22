@@ -38,7 +38,7 @@ void ServerConnector::slotReadyRead()
         inStream >> typeMessage;
         switch (typeMessage)
         {
-            case ServerSignals::SetID          :
+            case ServerSignals::SetID           :
             {
                 inStream >> m_ID;
                 break;
@@ -47,6 +47,11 @@ void ServerConnector::slotReadyRead()
             {
                 emit this->signalEnterToArena(this->m_ID);
                 break;
+            }
+            case ServerSignals::LeaveArena      :
+            {
+            emit this->signalLeaveArena();
+            break;
             }
         }
         m_nextDataBlockSize = 0;

@@ -17,11 +17,12 @@ Player::Player(QPoint startPosition, User* user, QObject *parent)
                          this, &Player::slotUserExitFromGame, Qt::ConnectionType::UniqueConnection);
 
 
-        m_arenaSocket->connectToHost(m_user->userIPAddress(), 52000);
+        m_arenaSocket->connectToHost(m_user->userIPAddress(), 52000 + this->id());
     }
 
 Player::~Player()
 {
+    m_user->slotLeaveArena();
 }
 
 

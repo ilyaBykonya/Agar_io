@@ -15,7 +15,8 @@ private:
     {
         SetID = 0,
 
-        EnterToArena
+        EnterToArena,
+        LeaveArena
     };
     enum UserSignals
     {
@@ -44,6 +45,7 @@ protected slots:
 
 signals:
     void signalEnterToArena(quint32);
+    void signalLeaveArena();
 };
 
 #endif // SERVERCONNECTOR_H

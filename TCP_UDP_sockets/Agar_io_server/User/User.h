@@ -13,7 +13,8 @@ public:
     {
         SetID = 0,
 
-        EnterToArena
+        EnterToArena,
+        LeaveArena
     };
     enum UserSignals
     {
@@ -43,6 +44,7 @@ signals:
 public slots:
     void slotReadyRead();
     void slotEnterToArena();
+    void slotLeaveArena();
 };
 
 #endif // USER_H

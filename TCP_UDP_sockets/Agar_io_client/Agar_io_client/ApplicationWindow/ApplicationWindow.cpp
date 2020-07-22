@@ -29,11 +29,13 @@ void ApplicationWindow::transitionFromMenuToGame(quint32 thisPlayerID)
     QObject::connect(m_arena, &ArenaView::signalPlayerWantExit,
                      this, &ApplicationWindow::transitionFromGameToMenu, Qt::ConnectionType::UniqueConnection);
 
+
     m_layout->addWidget(m_arena);
 
     this->resize(600, 600);
 
-
+    QObject::connect(m_serverConnector, &ServerConnector::signalLeaveArena,
+                     this, &ApplicationWindow::transitionFromGameToMenu, Qt::ConnectionType::UniqueConnection);
     QObject::disconnect(m_serverConnector, &ServerConnector::signalEnterToArena,
                      this, &ApplicationWindow::transitionFromMenuToGame);
 
@@ -56,7 +58,8 @@ void ApplicationWindow::transitionFromGameToMenu()
 
     this->resize(180, 270);
 
-
+    QObject::disconnect(m_serverConnector, &ServerConnector::signalLeaveArena,
+                     this, &ApplicationWindow::transitionFromGameToMenu);
     QObject::connect(m_serverConnector, &ServerConnector::signalEnterToArena,
                      this, &ApplicationWindow::transitionFromMenuToGame, Qt::ConnectionType::UniqueConnection);
 }

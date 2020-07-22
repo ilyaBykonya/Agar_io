@@ -84,3 +84,14 @@ void User::slotEnterToArena()
     outStream << quint16(dataBlock.size() - sizeof(quint16));
     m_socket->write(dataBlock);
 }
+void User::slotLeaveArena()
+{
+    QByteArray dataBlock;
+    QDataStream outStream(&dataBlock, QIODevice::OpenModeFlag::WriteOnly);
+
+    outStream << quint16(0) << User::ServerSignals::LeaveArena;
+    outStream.device()->seek(0);
+    outStream << quint16(dataBlock.size() - sizeof(quint16));
+    m_socket->write(dataBlock);
+}
+

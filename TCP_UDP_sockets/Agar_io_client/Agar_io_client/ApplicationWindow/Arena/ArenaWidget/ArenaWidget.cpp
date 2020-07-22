@@ -10,7 +10,7 @@ ArenaWidget::ArenaWidget(quint32 thisPlayerID, QWidget *parent)
         this->setFixedSize(arenaSize, arenaSize);
         QObject::connect(m_UDPSocket, &QUdpSocket::readyRead,
                         this, &ArenaWidget::slotUpdateArena, Qt::ConnectionType::UniqueConnection);
-        if(!m_UDPSocket->bind(QHostAddress::SpecialAddress::LocalHost, 52000))
+        if(!m_UDPSocket->bind(QHostAddress::SpecialAddress::LocalHost, 52000 + thisPlayerID))
         {
             QMessageBox::critical(this, "UDP socket error", m_UDPSocket->errorString());
             qApp->quit();
